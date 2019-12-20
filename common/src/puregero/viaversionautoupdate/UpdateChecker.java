@@ -80,7 +80,7 @@ public class UpdateChecker implements Runnable {
             Files.copy(in, newJar.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
             // Try to delete old jar now, if not, delete it on exit
-            if (!oldJar.delete()) {
+            if (oldJar != null && !oldJar.delete()) {
                 oldJar.deleteOnExit();
             }
         }
