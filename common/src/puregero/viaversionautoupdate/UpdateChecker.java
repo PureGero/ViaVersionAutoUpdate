@@ -19,7 +19,7 @@ public class UpdateChecker implements Runnable {
     public static final long CHECK_UPDATE_FREQUENCY = 15*60; // 15 minutes
 
     /** The url to the jenkins last build information */
-    public static final String LAST_BUILD_URL = "https://ci.viaversion.com/job/ViaVersion/lastBuild/api/json";
+    public static final String LAST_BUILD_URL = "https://ci.viaversion.com/job/ViaVersion/lastBuild/api/json?random=%f";
 
     /** The url to download the viaversion jar from */
     public static final String DOWNLOAD_URL = "https://ci.viaversion.com/job/ViaVersion/lastBuild/artifact/jar/target/%s";
@@ -92,7 +92,7 @@ public class UpdateChecker implements Runnable {
      * @return A json string of the last build info
      */
     private String downloadLastBuildInfo() throws IOException {
-        URL url = new URL(LAST_BUILD_URL);
+        URL url = new URL(String.format(LAST_BUILD_URL, Math.random()));
         URLConnection connection = url.openConnection();
         // Spoof a user-agent, jenkins doesn't like the java default
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36");
