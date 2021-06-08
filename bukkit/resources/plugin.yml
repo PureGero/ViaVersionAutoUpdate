@@ -1,6 +1,6 @@
 name: ViaVersionAutoUpdate
 main: puregero.viaversionautoupdate.bukkit.BukkitPlugin
-version: 1.0.1
+version: 1.0.2
 description: Auto update the ViaVersion plugin
 authors: [PureGero]
 softdepend: [ViaVersion]
