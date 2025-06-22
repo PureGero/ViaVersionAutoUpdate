@@ -1,0 +1,9 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+main: ${project.groupId}.${project.name}Plugin
+author: PureGero
+website: https://github.com/PureGero/ViaVersionAutoUpdate
+api-version: 1.13
+folia-supported: true
+multipaper-supported: true

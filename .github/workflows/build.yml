@@ -1,0 +1,23 @@
+name: Generate Jars
+on: [ push, pull_request ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git Repository
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          cache: 'maven'
+          distribution: 'temurin'
+      - name: Configure Git User Details
+        run: git config --global user.email "actions@github.com" && git config --global user.name "Github Actions"
+      - name: Build Jar
+        run: mvn
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: viaversion-auto-update.jar
+          path: target/viaversion-auto-update-*.jar
