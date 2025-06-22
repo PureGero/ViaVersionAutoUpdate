@@ -1,4 +1,4 @@
-# ViaVersionAutoUpdate
+# ViaVersionAutoUpdater
 Auto updates the ViaVersion plugin on your Bukkit server
 
 ## Usage

@@ -1,4 +1,4 @@
-package com.github.puregero.viaversionautoupdate;
+package com.github.puregero.viaversionautoupdater;
 
 public class UpdateCheckerJava8 extends UpdateChecker {
 
@@ -8,7 +8,7 @@ public class UpdateCheckerJava8 extends UpdateChecker {
     /** The url to download the viaversion jar from */
     private static final String DOWNLOAD_URL = "https://ci.viaversion.com/job/ViaVersion-Java8/lastBuild/artifact/%s";
 
-    public UpdateCheckerJava8(ViaVersionAutoUpdatePlugin plugin) {
+    public UpdateCheckerJava8(ViaVersionAutoUpdaterPlugin plugin) {
         super(plugin);
     }
 

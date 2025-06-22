@@ -1,4 +1,4 @@
-package com.github.puregero.viaversionautoupdate;
+package com.github.puregero.viaversionautoupdater;
 
 import com.github.puregero.multilib.MultiLib;
 import com.google.gson.JsonObject;
@@ -26,9 +26,9 @@ public class UpdateChecker implements Runnable {
     /** The url to download the viaversion jar from */
     private static final String DOWNLOAD_URL = "https://ci.viaversion.com/job/ViaVersion/lastBuild/artifact/%s";
 
-    private final ViaVersionAutoUpdatePlugin plugin;
+    private final ViaVersionAutoUpdaterPlugin plugin;
 
-    public UpdateChecker(ViaVersionAutoUpdatePlugin plugin) {
+    public UpdateChecker(ViaVersionAutoUpdaterPlugin plugin) {
         this.plugin = plugin;
 
         MultiLib.getAsyncScheduler().runAtFixedRate(this.plugin, task -> this.run(), 200, CHECK_UPDATE_FREQUENCY * 20);
@@ -67,8 +67,8 @@ public class UpdateChecker implements Runnable {
             if (newestJarBuild < build) {
 
                 // New update!
-                this.plugin.getLogger().info("[ViaVersionAutoUpdate] Current ViaVersion build: " + newestJarBuild);
-                this.plugin.getLogger().info("[ViaVersionAutoUpdate] New ViaVersion build available: " + build + ", installing...");
+                this.plugin.getLogger().info("[ViaVersionAutoUpdater] Current ViaVersion build: " + newestJarBuild);
+                this.plugin.getLogger().info("[ViaVersionAutoUpdater] New ViaVersion build available: " + build + ", installing...");
 
                 String fileNameWithBuildNumber = fileName.replace(".jar", "-" + build + ".jar");
 
@@ -78,7 +78,7 @@ public class UpdateChecker implements Runnable {
 
 
         } catch (Exception e) {
-            this.plugin.getLogger().severe("[ViaVersionAutoUpdate] An error occured while checking for updates");
+            this.plugin.getLogger().severe("[ViaVersionAutoUpdater] An error occured while checking for updates");
             e.printStackTrace();
         }
     }
@@ -119,20 +119,20 @@ public class UpdateChecker implements Runnable {
         File newJar = new File(this.plugin.getPluginsDir(), fileName);
 
         URL url = new URL(String.format(this.getDownloadUrl(), relativePath));
-        this.plugin.getLogger().info("[ViaVersionAutoUpdate] Downloading " + url + "...");
+        this.plugin.getLogger().info("[ViaVersionAutoUpdater] Downloading " + url + "...");
         URLConnection connection = url.openConnection();
         // Spoof a user-agent, jenkins doesn't like the java default
         connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36");
         try (InputStream in = connection.getInputStream()) {
             Files.copy(in, newJar.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            this.plugin.getLogger().info("[ViaVersionAutoUpdate] Downloaded " + newJar + " successfully!");
+            this.plugin.getLogger().info("[ViaVersionAutoUpdater] Downloaded " + newJar + " successfully!");
 
             // Try to delete old jar now, if not, delete it on exit
             for (File oldJar : oldJars) {
                 File deletemeJar = new File(oldJar.getParentFile(), oldJar.getName() + ".deleteme");
-                this.plugin.getLogger().info("[ViaVersionAutoUpdate] Moving " + oldJar.getName() + " to " + deletemeJar.getName());
+                this.plugin.getLogger().info("[ViaVersionAutoUpdater] Moving " + oldJar.getName() + " to " + deletemeJar.getName());
                 oldJar.renameTo(deletemeJar);
-                this.plugin.getLogger().info("[ViaVersionAutoUpdate] Deleting " + deletemeJar.getName() + " on exit");
+                this.plugin.getLogger().info("[ViaVersionAutoUpdater] Deleting " + deletemeJar.getName() + " on exit");
                 deletemeJar.deleteOnExit();
             }
         }
